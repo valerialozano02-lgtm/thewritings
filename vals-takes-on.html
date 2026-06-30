@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Val's Takes On...</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Henny+Penny&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cerulean: #8C1F2B;
+    --cerulean-deep: #5E1219;
+    --pink: #F4B6CC;
+    --pink-deep: #EE93B5;
+    --cream: #1F0E10;
+    --ink: #FBEAEF;
+    --ink-soft: #D9A9B8;
+    --max-width: 760px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Lora', serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection{ background: var(--pink); color: var(--ink); }
+
+  a{ color: var(--cerulean-deep); }
+
+  /* ---------- background texture ---------- */
+  .bg-doodles{
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bg-doodles svg{ position: absolute; opacity: 0.5; }
+
+  /* ---------- header ---------- */
+  header{
+    text-align:center;
+    padding: 4.5rem 1.5rem 3rem;
+    position: relative;
+  }
+
+  h1.site-title{
+    font-family: 'Henny Penny', cursive;
+    font-weight: 400;
+    font-size: clamp(2.4rem, 7vw, 4.6rem);
+    margin: 0;
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: 0;
+  }
+  h1.site-title .accent{
+    color: var(--pink-deep);
+    letter-spacing: 0;
+  }
+  h1.site-title .dots{ color: var(--cerulean); }
+
+  .tagline{
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 480px;
+    margin: 1.1rem auto 0;
+  }
+
+  .header-squiggle{
+    width: 140px;
+    margin: 1.6rem auto 0;
+    display:block;
+  }
+
+  /* ---------- feed ---------- */
+  main{
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem 6rem;
+  }
+
+  .post-card{
+    background: #2B1014;
+    border: 2.5px solid var(--pink);
+    border-radius: 22px;
+    padding: 2rem 2.1rem;
+    margin-bottom: 2.2rem;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 6px 6px 0 var(--pink-deep);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .post-card:hover{
+    transform: translate(-3px,-3px);
+    box-shadow: 9px 9px 0 var(--pink-deep);
+  }
+  .post-card:nth-child(even){
+    border-color: var(--cerulean);
+    box-shadow: 6px 6px 0 var(--cerulean-deep);
+  }
+  .post-card:nth-child(even):hover{
+    box-shadow: 9px 9px 0 var(--cerulean-deep);
+  }
+
+  .post-card h2{
+    font-family: 'Henny Penny', cursive;
+    font-weight: 400;
+    font-size: 1.3rem;
+    line-height: 1.3;
+    letter-spacing: 0;
+    margin: 0 0 0.4rem;
+    color: var(--ink);
+  }
+
+  .post-card .date{
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.9rem;
+  }
+
+  .post-card p.excerpt{
+    margin: 0 0 1.1rem;
+    color: var(--ink-soft);
+  }
+
+  .read-more{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--cerulean-deep);
+  }
+  .read-more::after{ content: " →"; }
+
+  /* ---------- post (detail) view ---------- */
+  .post-full{
+    display: none;
+  }
+  .post-full.active{ display: block; }
+
+  .back-btn{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: none;
+    border: none;
+    color: var(--cerulean-deep);
+    cursor: pointer;
+    margin-bottom: 1.8rem;
+    padding: 0;
+  }
+  .back-btn::before{ content: "← "; }
+
+  .post-full article{
+    background: #2B1014;
+    border: 2.5px solid var(--pink);
+    border-radius: 22px;
+    padding: 2.6rem 2.4rem;
+    box-shadow: 8px 8px 0 var(--pink-deep);
+  }
+
+  .post-full h2{
+    font-family: 'Henny Penny', cursive;
+    font-weight: 400;
+    font-size: clamp(1.7rem, 4.5vw, 2.2rem);
+    line-height: 1.3;
+    letter-spacing: 0;
+    margin: 0 0 0.2rem;
+  }
+
+  .post-full .date{
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 1.8rem;
+  }
+
+  .post-full .body p{ margin: 0 0 1.2rem; }
+
+  #feed-view.hidden{ display:none; }
+
+  /* ---------- footer ---------- */
+  footer{
+    text-align: center;
+    padding: 3rem 1.5rem 4rem;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  footer .heart{ color: var(--pink-deep); }
+
+  @media (max-width: 480px){
+    .post-card{ padding: 1.6rem 1.5rem; }
+    .post-full article{ padding: 1.8rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-doodles">
+  <svg width="60" height="60" style="top:8%; left:5%;" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="#EE93B5"/></svg>
+  <svg width="40" height="40" style="top:20%; right:8%;" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#8C1F2B" stroke-width="2"/></svg>
+  <svg width="50" height="50" style="top:55%; left:3%;" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="#8C1F2B" opacity="0.6"/></svg>
+  <svg width="45" height="45" style="top:75%; right:6%;" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#EE93B5" stroke-width="2"/></svg>
+  <svg width="35" height="35" style="top:38%; right:18%;" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="#EE93B5" opacity="0.7"/></svg>
+</div>
+
+<header>
+  <h1 class="site-title">Val's Takes <span class="dots">On</span><span class="accent">...</span></h1>
+  <p class="tagline">disclaimer: don't think too much, just read and go with it.</p>
+  <svg class="header-squiggle" viewBox="0 0 140 20" fill="none">
+    <path d="M2 10 Q 17 -2, 32 10 T 62 10 T 92 10 T 122 10 T 138 10" stroke="#8C1F2B" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+</header>
+
+<main>
+
+  <!-- FEED VIEW -->
+  <div id="feed-view">
+
+    <div class="post-card" onclick="showPost('post1')">
+      <h2>Val's Take on Legalities</h2>
+      <div class="date">May 25, 2026</div>
+      <p class="excerpt">After watching the first 10 minutes of Margot's Got Money Troubles, I thought to myself: mmh, maybe I could have a baby to stay in the country.</p>
+      <span class="read-more">Read the full piece</span>
+    </div>
+
+    <div class="post-card" onclick="showPost('post2')">
+      <h2>Poem Title Goes Here</h2>
+      <div class="date">Month Day, Year</div>
+      <p class="excerpt">A line or two from the poem, or a small note about what inspired it — set the mood before they dive into the full piece.</p>
+      <span class="read-more">Read the full piece</span>
+    </div>
+
+    <div class="post-card" onclick="showPost('post3')">
+      <h2>A Musing or Reflection Title</h2>
+      <div class="date">Month Day, Year</div>
+      <p class="excerpt">This is your space for shorter, looser thoughts — half-formed ideas, observations, or anything that doesn't quite fit the "story" or "poem" box.</p>
+      <span class="read-more">Read the full piece</span>
+    </div>
+
+  </div>
+
+  <!-- POST 1 -->
+  <div class="post-full" id="post1">
+    <button class="back-btn" onclick="showFeed()">back to all takes</button>
+    <article>
+      <h2>Val's Take on Legalities</h2>
+      <div class="date">May 25, 2026</div>
+      <div class="body">
+        <p>After watching the first 10 minutes of Margot's Got Money Troubles, I thought to myself: mmh, maybe I could have a baby to stay in the country. As in, the United States of America. But then I watched her give birth with no epidural and nurse the baby, and the thought of a small human latching onto my nipple while sucking me for liquid nourishment did not sound appealing. Bottom line: having a baby in the United States would not make me a citizen. Period.</p>
+        <p>As you readers are wondering why I want to become a US citizen, well, I think it would strengthen my chances of landing a good job. I graduated college three weeks ago, and I feel incompetent for not doing anything all day. I wake up, go on LinkedIn, hit apply, and wait for an email. I lie about having authorization to work in the country, hoping my resume will pass the shitty ATS system. I also thought about opening an OnlyFans account; I even googled the steps for it and how fast I could make money off of it.</p>
+        <p>Another important fact to note: I have the kind of privilege where money isn't the problem. I don't have any student loans, nor do my parents have any loans after paying for my college degree. I have a Bachelor of Science in Integrated Marketing Communications. I learned everything there is to learn in college, academically speaking, that is. I even learned how to code and calculate revenue for a dispensable product that would probably lose more money than the actual investment it took to make, but I got very good at telling a client that it would actually sell and make more money than what it took to make. It's not lying, it's merely not making people worry. Think of it as a survival instinct.</p>
+        <p>Anyway, back to business. So here I am, a recent grad with no prospects whatsoever, no job opportunities, and no proposals regarding my love life. Because yes, before you say anything, I've thought about marrying some American guy just for the citizenship. But I've realized my type of man is the one who never says no to me. But that's a story for another time.</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="post-full" id="post2">
+  <button class="back-btn" onclick="showFeed()">back to all takes</button>
+  <article>
+    <h2>Val's Take on Oversharing</h2>
+    <div class="date">June 29, 2026</div>
+    <div class="body">
+      <p>And you might be wondering, "Val, I didn't know you could create websites." I can't — but my good friend Doña Claudia (meaning Claude) can. But don't be fooled: the website might be created by an AI, but everything that's written on here is coming from the scary, and sometimes questionable, depths of my brain.</p>
+      <p>With that said and done, unemployment is still kicking my ass. I even hired a professional resume writer — graduated from Harvard, or so his LinkedIn profile says — to write me a resume for seventy bucks, because apparently my resume isn't good enough; after all, I wake up to nothing but rejection letters. It was a nice-looking Arab man, let's call him Habibi (and yes, I know that means "my love"), but as I was saying, he slid into my LinkedIn DMs after I requested a resume check, and he was the lucky winner. So here I am, waiting for nice-looking Arab men to send me my resume so I can get a decent job.</p>
+      <p>I must be boring you guys with all my unemployment talk, but not much has been going on in my life besides watching Love Island, which I will be writing about, so just you wait. I also joined Hinge — not by my own merits, but my best friend said it might help me meet people in this new city I just moved to.</p>
+      <p>I do wonder, am I revealing too much in this silly little blog? Will anything that I say get me in trouble? Or maybe will I get famous? Actually, scratch that, fame is not for me — but if writing my sometimes-tragic stories gets me a column in The New Yorker or Vogue, then yes, I want to be famous. Also, is it cliché that I'm doing this? I really don't care. Maybe something good will come out of this, but in the meantime, I'm looking for a job — if any of my readers have ideas or suggestions on how to survive life post-grad, please do tell, I'm all ears.</p>
+      <p>Until next time.</p>
+    </div>
+  </article>
+</div>
+
+  <!-- POST 3 -->
+  <div class="post-full" id="post3">
+    <button class="back-btn" onclick="showFeed()">back to all takes</button>
+    <article>
+      <h2>Writing in process pls dnd</h2>
+      <div class="date">soon</div>
+      <div class="body">
+        <p>Don't worry Val is writing me!</p>
+      </div>
+    </article>
+  </div>
+
+</main>
+
+<footer>
+  sending you kisses <span class="heart">xx</span> Val
+</footer>
+
+<script>
+  function showPost(id){
+    document.getElementById('feed-view').classList.add('hidden');
+    document.querySelectorAll('.post-full').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+  function showFeed(){
+    document.querySelectorAll('.post-full').forEach(el => el.classList.remove('active'));
+    document.getElementById('feed-view').classList.remove('hidden');
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+</script>
+
+</body>
+</html>
